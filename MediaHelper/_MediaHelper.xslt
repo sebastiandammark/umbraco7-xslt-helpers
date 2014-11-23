@@ -10,7 +10,6 @@
 	
 	<xsl:template match="*" mode="media">
 		<xsl:param name="cropset" />
-		<xsl:param name="scale" select="true()" />
 		<xsl:param name="quality" select="'90'" />
 
 		<xsl:variable name="media" select="umb:GetMedia(., 1)" />
@@ -18,14 +17,12 @@
 		<xsl:apply-templates select="$media[@id and not(error)]">
 			<xsl:with-param name="cropset" select="$cropset" />
 			<xsl:with-param name="quality" select="$quality" />
-			<xsl:with-param name="scale" select="$scale" />
 		</xsl:apply-templates>			
 	</xsl:template>
 
 	<xsl:template match="Image">
 		<xsl:param name="cropset" />
 		<xsl:param name="quality" />
-		<xsl:param name="scale" />
 		<xsl:variable name="data" select="umb:JsonToXml(umbracoFile)" />
 		<xsl:variable name="src" select="$data/src" />
 		
