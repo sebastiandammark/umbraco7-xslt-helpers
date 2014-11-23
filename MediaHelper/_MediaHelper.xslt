@@ -12,12 +12,20 @@
 		<xsl:param name="cropset" />
 		<xsl:param name="quality" select="'90'" />
 
-		<xsl:variable name="media" select="umb:GetMedia(., 1)" />
-
-		<xsl:apply-templates select="$media[@id and not(error)]">
+		<xsl:apply-templates select="umb:Split(., ',')/descendant::value[normalize-space()]" mode="media">
 			<xsl:with-param name="cropset" select="$cropset" />
 			<xsl:with-param name="quality" select="$quality" />
-		</xsl:apply-templates>			
+		</xsl:apply-templates>
+	</xsl:template>
+
+	<xsl:template match="value" mode="media">
+		<xsl:param name="cropset" />
+		<xsl:param name="quality" />
+
+		<xsl:apply-templates select="umb:GetMedia(., 1)[@id and not(error)]">
+			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="quality" select="$quality" />
+		</xsl:apply-templates>
 	</xsl:template>
 
 	<xsl:template match="Image">
@@ -75,7 +83,7 @@
 		<xsl:param name="cropset" />
 		<xsl:param name="quality" />
 
-		<xsl:apply-templates select="*[@id]" mode="media">
+		<xsl:apply-templates select="*[@id]">
 			<xsl:with-param name="cropset" select="$cropset" />
 			<xsl:with-param name="quality" select="$quality" />
 		</xsl:apply-templates>
