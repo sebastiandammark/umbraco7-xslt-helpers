@@ -115,5 +115,17 @@
 		</xsl:apply-templates>
 	</xsl:template>
 
+	<xsl:template match="File[umbracoExtension='svg']">
+		<xsl:param name="class" />
+
+		<img src="{umbracoFile}" id="{@urlName}" alt="{@nodeName}">
+			<xsl:if test="$class">
+				<xsl:attribute name="class">
+					<xsl:value-of select="$class" />
+				</xsl:attribute>
+			</xsl:if>
+		</img>
+	</xsl:template>
+
 	<xsl:template match="File" />
 </xsl:stylesheet>
