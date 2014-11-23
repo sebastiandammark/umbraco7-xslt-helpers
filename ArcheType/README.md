@@ -22,7 +22,7 @@ Helper file for rendering Archetype fieldsets:
 	</xsl:template>
 	```
 
-3. Apply templates in "multipicker" mode, to the picker property:
+3. Apply templates in "archetype" mode, to the archetype property:
 
 	```xslt
 	<xsl:apply-templates select="myArchetypeProperty" mode="archetype" />
