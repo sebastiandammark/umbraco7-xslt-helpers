@@ -10,26 +10,36 @@
 	
 	<xsl:template match="*" mode="media">
 		<xsl:param name="cropset" />
+		<xsl:param name="class" />
+		<xsl:param name="id" />
 		<xsl:param name="quality" select="'90'" />
 
 		<xsl:apply-templates select="umb:Split(., ',')/descendant::value[normalize-space()]" mode="media">
 			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="class" select="$class" />
+			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="quality" select="$quality" />
 		</xsl:apply-templates>
 	</xsl:template>
 
 	<xsl:template match="value" mode="media">
 		<xsl:param name="cropset" />
+		<xsl:param name="class" />
+		<xsl:param name="id" />
 		<xsl:param name="quality" />
 
 		<xsl:apply-templates select="umb:GetMedia(., 1)[@id and not(error)]">
 			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="class" select="$class" />
+			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="quality" select="$quality" />
 		</xsl:apply-templates>
 	</xsl:template>
 
 	<xsl:template match="Image">
 		<xsl:param name="cropset" />
+		<xsl:param name="class" />
+		<xsl:param name="id" />
 		<xsl:param name="quality" />
 		<xsl:variable name="data" select="umb:JsonToXml(umbracoFile)" />
 		<xsl:variable name="src" select="$data/src" />
@@ -76,15 +86,31 @@
 					<xsl:value-of select="$data/crops[alias = $cropset]/height" />
 				</xsl:attribute>
 			</xsl:if>
+
+			<xsl:if test="$class">
+				<xsl:attribute name="class">
+					<xsl:value-of select="$class" />
+				</xsl:attribute>
+			</xsl:if>
+
+			<xsl:if test="$id">
+				<xsl:attribute name="id">
+					<xsl:value-of select="$id" />
+				</xsl:attribute>
+			</xsl:if>
 		</img>
 	</xsl:template>
 
 	<xsl:template match="Folder">
 		<xsl:param name="cropset" />
+		<xsl:param name="class" />
+		<xsl:param name="id" />
 		<xsl:param name="quality" />
 
 		<xsl:apply-templates select="*[@id]">
 			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="class" select="$class" />
+			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="quality" select="$quality" />
 		</xsl:apply-templates>
 	</xsl:template>
