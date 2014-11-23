@@ -17,11 +17,11 @@ Helper file for rendering media from the media section:
 	```
 
 ### Properties
-
 The helper takes 2 properties:
-	* cropset
-	* quality (default is 90)
 
+* cropset
+* quality (default is 90)
+	
 If you're using the built-in Image Cropper, you can use the helper like this:
 
 	```xslt
