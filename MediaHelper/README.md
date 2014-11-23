@@ -28,5 +28,5 @@ If you're using the built-in Image Cropper, you can use the helper like this:
 	<xsl:apply-templates select="myMediaProperty" mode="media">
 		<xsl:with-param name="cropset" select="'mycropsetname'" />
 		<xsl:with-param name="quality" select="85" />
-		</xsl:apply-templates>
+	</xsl:apply-templates>
 	```
