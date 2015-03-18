@@ -7,13 +7,13 @@
 	exclude-result-prefixes="msxml umb">
 
 	<xsl:template match="*" mode="media">
-		<xsl:param name="cropset" />
+		<xsl:param name="crop" />
 		<xsl:param name="class" />
 		<xsl:param name="id" />
 		<xsl:param name="quality" select="'90'" />
 
 		<xsl:apply-templates select="umb:Split(., ',')/descendant::value[normalize-space()]" mode="media">
-			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="crop" select="$crop" />
 			<xsl:with-param name="class" select="$class" />
 			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="quality" select="$quality" />
@@ -21,13 +21,13 @@
 	</xsl:template>
 
 	<xsl:template match="value" mode="media">
-		<xsl:param name="cropset" />
+		<xsl:param name="crop" />
 		<xsl:param name="class" />
 		<xsl:param name="id" />
 		<xsl:param name="quality" />
 
 		<xsl:apply-templates select="umb:GetMedia(., 1)[@id and not(error)]">
-			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="crop" select="$crop" />
 			<xsl:with-param name="class" select="$class" />
 			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="quality" select="$quality" />
@@ -35,7 +35,7 @@
 	</xsl:template>
 
 	<xsl:template match="Image">
-		<xsl:param name="cropset" />
+		<xsl:param name="crop" />
 		<xsl:param name="class" />
 		<xsl:param name="id" />
 		<xsl:param name="quality" />
@@ -61,16 +61,16 @@
 		<img src="{$src}" width="{umbracoWidth}" height="{umbracoHeight}" alt="{@nodeName}">
 			<xsl:variable name="origin">
 				<xsl:choose>
-					<xsl:when test="$data/crops[alias = $cropset]/coordinates">
-						<xsl:value-of select="concat('?crop=', $data/crops[alias = $cropset]/coordinates/x1, ',', $data/crops[alias = $cropset]/coordinates/y1, ',', $data/crops[alias = $cropset]/coordinates/x2, ',', $data/crops[alias = $cropset]/coordinates/y2, '&amp;cropmode=percentage')" />
+					<xsl:when test="$data/crops[alias = $crop]/coordinates">
+						<xsl:value-of select="concat('?crop=', $data/crops[alias = $crop]/coordinates/x1, ',', $data/crops[alias = $crop]/coordinates/y1, ',', $data/crops[alias = $crop]/coordinates/x2, ',', $data/crops[alias = $crop]/coordinates/y2, '&amp;cropmode=percentage')" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="concat('?mode=crop&amp;center=', $focalPointTop, ',', $focalPointLeft, '&amp;width=', $data/crops[alias = $cropset]/width, '&amp;height=', $data/crops[alias = $cropset]/height)" />
+						<xsl:value-of select="concat('?mode=crop&amp;center=', $focalPointTop, ',', $focalPointLeft, '&amp;width=', $data/crops[alias = $crop]/width, '&amp;height=', $data/crops[alias = $crop]/height)" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
 
-			<xsl:if test="$cropset">
+			<xsl:if test="$crop">
 				<xsl:attribute name="src">
 					<xsl:value-of select="$src" />
 					<xsl:value-of select="$origin" />
@@ -78,10 +78,10 @@
 					<xsl:value-of select="concat('&amp;format=', $format)" />
 				</xsl:attribute>
 				<xsl:attribute name="width">
-					<xsl:value-of select="$data/crops[alias = $cropset]/width" />
+					<xsl:value-of select="$data/crops[alias = $crop]/width" />
 				</xsl:attribute>
 				<xsl:attribute name="height">
-					<xsl:value-of select="$data/crops[alias = $cropset]/height" />
+					<xsl:value-of select="$data/crops[alias = $crop]/height" />
 				</xsl:attribute>
 			</xsl:if>
 
@@ -100,13 +100,13 @@
 	</xsl:template>
 
 	<xsl:template match="Folder">
-		<xsl:param name="cropset" />
+		<xsl:param name="crop" />
 		<xsl:param name="class" />
 		<xsl:param name="id" />
 		<xsl:param name="quality" />
 
 		<xsl:apply-templates select="*[@id]">
-			<xsl:with-param name="cropset" select="$cropset" />
+			<xsl:with-param name="crop" select="$crop" />
 			<xsl:with-param name="class" select="$class" />
 			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="quality" select="$quality" />
