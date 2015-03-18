@@ -40,6 +40,7 @@
 		<xsl:param name="id" />
 		<xsl:param name="quality" />
 		<xsl:variable name="data" select="umb:JsonToXml(umbracoFile)" />
+		<xsl:variable name="cropData" select="$data/crops[alias = $crop]" />
 		<xsl:variable name="src" select="$data/src" />
 		
 		<xsl:variable name="format">
@@ -61,16 +62,16 @@
 		<img src="{$src}" width="{umbracoWidth}" height="{umbracoHeight}" alt="{@nodeName}">
 			<xsl:variable name="origin">
 				<xsl:choose>
-					<xsl:when test="$data/crops[alias = $crop]/coordinates">
-						<xsl:value-of select="concat('?crop=', $data/crops[alias = $crop]/coordinates/x1, ',', $data/crops[alias = $crop]/coordinates/y1, ',', $data/crops[alias = $crop]/coordinates/x2, ',', $data/crops[alias = $crop]/coordinates/y2, '&amp;cropmode=percentage')" />
+					<xsl:when test="$cropData/coordinates">
+						<xsl:value-of select="concat('?crop=', $cropData/coordinates/x1, ',', $cropData/coordinates/y1, ',', $cropData/coordinates/x2, ',', $cropData/coordinates/y2, '&amp;cropmode=percentage')" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="concat('?mode=crop&amp;center=', $focalPointTop, ',', $focalPointLeft, '&amp;width=', $data/crops[alias = $crop]/width, '&amp;height=', $data/crops[alias = $crop]/height)" />
+						<xsl:value-of select="concat('?mode=crop&amp;center=', $focalPointTop, ',', $focalPointLeft, '&amp;width=', $cropData/width, '&amp;height=', $cropData/height)" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
 
-			<xsl:if test="$crop">
+			<xsl:if test="$crop and $cropData">
 				<xsl:attribute name="src">
 					<xsl:value-of select="$src" />
 					<xsl:value-of select="$origin" />
@@ -78,10 +79,10 @@
 					<xsl:value-of select="concat('&amp;format=', $format)" />
 				</xsl:attribute>
 				<xsl:attribute name="width">
-					<xsl:value-of select="$data/crops[alias = $crop]/width" />
+					<xsl:value-of select="$cropData/width" />
 				</xsl:attribute>
 				<xsl:attribute name="height">
-					<xsl:value-of select="$data/crops[alias = $crop]/height" />
+					<xsl:value-of select="$cropData/height" />
 				</xsl:attribute>
 			</xsl:if>
 
