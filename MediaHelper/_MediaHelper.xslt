@@ -6,8 +6,6 @@
 	xmlns:umb="urn:umbraco.library"
 	exclude-result-prefixes="msxml umb">
 
-	<xsl:output method="xml" omit-xml-declaration="yes"/>
-	
 	<xsl:template match="*" mode="media">
 		<xsl:param name="cropset" />
 		<xsl:param name="class" />
