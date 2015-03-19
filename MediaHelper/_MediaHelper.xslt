@@ -43,19 +43,6 @@
 		<xsl:variable name="cropData" select="$data/crops[alias = $crop]" />
 		<xsl:variable name="src" select="$data/src" />
 		
-		<xsl:variable name="format">
-			<xsl:choose>
-				<xsl:when test="contains($src, '.jpg')">
-					<xsl:value-of select="'jpg'" />
-				</xsl:when>
-				<xsl:when test="contains($src, '.png')">
-					<xsl:value-of select="'png'" />
-				</xsl:when>
-				<xsl:when test="contains($src, '.gif')">
-					<xsl:value-of select="'gif'" />
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:variable name="focalPointTop" select="$data/focalPoint/top" />
 		<xsl:variable name="focalPointLeft" select="$data/focalPoint/left" />
 
@@ -81,7 +68,6 @@
 					<xsl:value-of select="$src" />
 					<xsl:value-of select="$origin" />
 					<xsl:value-of select="concat('&amp;quality=', $quality)" />
-					<xsl:value-of select="concat('&amp;format=', $format)" />
 				</xsl:attribute>
 				<xsl:attribute name="width">
 					<xsl:value-of select="$cropData/width" />
@@ -132,7 +118,7 @@
 	</xsl:template>
 
 	<xsl:template match="File" />
-	
+
 	<!--
 	Template for handling coordinates logged using scientific notation.
 	Source: http://stackoverflow.com/questions/4367737/formatting-scientific-number-representation-in-xsl
