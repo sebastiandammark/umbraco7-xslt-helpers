@@ -63,7 +63,12 @@
 			<xsl:variable name="origin">
 				<xsl:choose>
 					<xsl:when test="$cropData/coordinates">
-						<xsl:value-of select="concat('?crop=', $cropData/coordinates/x1, ',', $cropData/coordinates/y1, ',', $cropData/coordinates/x2, ',', $cropData/coordinates/y2, '&amp;cropmode=percentage')" />
+						<xsl:text>?crop=</xsl:text>
+						<xsl:apply-templates select="$cropData/coordinates/x1" /><xsl:text>,</xsl:text>
+						<xsl:apply-templates select="$cropData/coordinates/y1" /><xsl:text>,</xsl:text>
+						<xsl:apply-templates select="$cropData/coordinates/x2" /><xsl:text>,</xsl:text>
+						<xsl:apply-templates select="$cropData/coordinates/y2" />
+						<xsl:text>&amp;cropmode=percent</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="concat('?mode=crop&amp;center=', $focalPointTop, ',', $focalPointLeft, '&amp;width=', $cropData/width, '&amp;height=', $cropData/height)" />
@@ -127,4 +132,26 @@
 	</xsl:template>
 
 	<xsl:template match="File" />
+	
+	<!--
+	Template for handling coordinates logged using scientific notation.
+	Source: http://stackoverflow.com/questions/4367737/formatting-scientific-number-representation-in-xsl
+	-->
+	<xsl:template match="coordinates/*[substring-after(.,'E')]">
+		<xsl:variable name="vExponent" select="substring-after(.,'E')"/>
+		<xsl:variable name="vMantissa" select="substring-before(.,'E')"/>
+		<xsl:variable name="vFactor"
+			select="substring('100000000000000000000000000000000000000000000',
+			        1, substring($vExponent,2) + 1)"
+		/>
+		<xsl:choose>
+			<xsl:when test="starts-with($vExponent,'-')">
+				<xsl:value-of select="$vMantissa div $vFactor"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$vMantissa * $vFactor"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
 </xsl:stylesheet>
